@@ -1,0 +1,17 @@
+@font-face {
+    font-family: Graduate;
+    src: url(../fonts/Graduate-Regular.ttf);
+}
+.winner-dialog{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+.winner-dialog>.wins-message{
+    font-family: Graduate;
+    font-size: xx-large;
+}
+.winner-dialog>.score-label{
+    align-self: flex-start;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

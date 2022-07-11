@@ -1,0 +1,194 @@
+.centered{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+
+/* animations */
+@keyframes small-counter-anim{
+    from{
+    }
+    65%{
+        transform: scale(1.13);
+        opacity: 0.87;
+    }
+    to{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+/* styles */
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
+#root {
+    display: block;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+#ground {
+    display: block;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+#ball {
+    position: absolute;
+    box-shadow: 1mm 1mm 3mm rgba(0, 0, 0, 0.1), -2px -2px 10px #33333355;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: green;
+    transition: top 10ms, left 10ms;
+}
+
+.player-field {
+    height: 50%;
+    width: 100%;
+    padding: 3mm;
+    display: flex;
+    box-sizing: border-box;
+    align-items: stretch;
+    flex-flow: column nowrap;
+}
+
+.racket-range {
+    height: 1px;
+    position: sticky;
+    display: block;
+}
+
+.racket {
+    position: absolute;
+    background-color: white;
+    transition: transform 300ms ease-out, opacity 300ms ease-out, left 100ms, top 10ms;
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+.racket.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#controls {
+    background-color: aliceblue;
+    height: 2cm;
+    width: 4.9cm;
+    border-radius: 3mm;
+    transform: translate(-50%, -50%) rotate(270deg) translate(0px,-100px);
+    backdrop-filter: blur(2px);
+    position: absolute;
+    top: 50%;
+    left: 1.5cm;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 8mm;
+    opacity:0;
+    transition: none;
+    visibility:hidden;
+}
+#controls.shown{
+    transform: translate(-50%, -50%) rotate(270deg) translate(0px,0px);
+    opacity: 0.9;
+    transition: opacity 300ms, transform 300ms;
+    visibility: visible;
+}
+#controls.hiding{
+    transition: transform 300ms, opacity 300ms;
+    transform: translate(-50%, -50%) rotate(270deg) scale(0.7) ;
+    opacity: 0;
+    visibility: visible;
+}
+.scoreDisplay {
+    height: fit-content;
+    width: fit-content;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.scoreDisplay>p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 6mm;
+    margin: 0px;
+    padding: 0px;
+}
+#game-timer{
+    color:grey
+}
+#game-timer.active{
+    color:#555555;
+}
+#game-timer>span{
+    opacity: 0;
+    transition: opacity 200ms;
+}
+#game-timer>span.visible{
+    opacity:1;
+    transition: opacity 300ms ease-out 200ms;
+}
+
+
+
+.suspend-dialog{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    padding-left: 3mm;
+}
+#suspend> button{
+    color:blue;
+    background-color:aliceblue;
+    margin:5mm;
+  
+}
+#suspend> button+button{
+    color:orange;
+    background-color:aliceblue;
+    margin:5mm;
+    
+}
+#suspend> button>i{
+    margin-top: 5mm;
+}
+.counter{
+   font-size: 4cm;
+   color:lime;
+}
+.counter-background{
+   opacity: 0.8;
+   backdrop-filter:blur(2px);
+   background-color: aliceblue;
+   position: absolute;
+   height: 100%;
+   width:100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}

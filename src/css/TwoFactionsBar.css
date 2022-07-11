@@ -1,0 +1,14 @@
+.faction-container{
+    width:2.5mm;
+    height:9mm;
+    border-radius: 4.5mm;
+    overflow: hidden;
+    display: inline-block;
+}
+.faction-container>.faction{
+    display: inline-block;
+    height: 100%;
+}
+.faction-container>.faction+.faction{
+    width: 100%;
+}
