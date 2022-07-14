@@ -1,6 +1,6 @@
 import { Button, IconButton } from "@mui/material";
 import { useState } from "react";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 import "../css/linear-range-selector.css"
 
 /**valid props:
@@ -18,7 +18,7 @@ export function LinearRangeSelector(props) {
           <div className="linear-range-selector">
                <div className="change"><IconButton className="material-icons" onClick={previous} disabled={index <= 0}>arrow_left</IconButton></div>
                <div className="optionsDisplay">
-                    <TransitionGroup>
+                    <SwitchTransition mode="out-in">
                          <CSSTransition key={index} classNames={"move-" + direction + (props.inside ? " inside" : "")} addEndListener={(node, call) =>node.addEventListener('transitionend', (ev)=>{if(ev.propertyName==="transform")call()}, false)}>
                               <div className="option" onClick={props.onSelect}>
                                    <Button >
@@ -26,7 +26,7 @@ export function LinearRangeSelector(props) {
                                    </Button>
                               </div>
                          </CSSTransition>
-                    </TransitionGroup>
+                    </SwitchTransition>
                </div>
                <div className="change"><IconButton className="material-icons" onClick={next} disabled={index >= props.values.length - 1}>arrow_right</IconButton></div>
           </div>

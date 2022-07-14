@@ -59,26 +59,11 @@
 }
 
 .move-right-enter, .move-right-appear, .move-left-appear-active, .move-right-enter-active, .move-left-enter, .move-left-appear, .move-left-enter-active, .move-left-appear-active {
-  transition: opacity 1000ms ease-out 1500ms, transform 3000ms;
-}
-.move-right-appear-done,.move-right-enter-done,.move-left-appear-done,.move-left-enter-done{
-   transition: all 0s;
+  transition: opacity 100ms ease-out 150ms, transform 300ms;
 }
 
-.move-left-exit-active, .move-right-exit-active {
-  transition: opacity 1500ms, transform 3000ms;
-}
-
-.move-left-exit,move-right-exit{
-  transform: scale(1) translateX(0px) translateY(-100%) ;
-}
-
-.move-left-exit-active{
-  transform: scale(0.7) translateX(100px) translateY(-100%);
-}
-
-.move-right-exit-active{
-  transform: scale(0.7) translateX(-100px)  translateY(-100%);
+.move-left-exit, .move-right-exit {
+  transition: opacity 150ms, transform 300ms;
 }
 
 .linear-range-selector>.optionsDisplay {
@@ -87,7 +72,7 @@
   align-items: center;
   justify-content: center;
   width:fit-content;
-  overflow:hidden
+  overflow:hidden;
 }
 .linear-range-selector>.optionsDisplay .option{
    position: relative;
