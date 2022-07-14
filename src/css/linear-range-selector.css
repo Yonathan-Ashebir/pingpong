@@ -1,0 +1,95 @@
+.linear-range-selector:not(.inside) {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-content: center;
+  width:fit-content;
+}
+
+.linear-range-selector:not(.inside)>.change {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-content: center;
+  height: 100%;
+}
+
+.linear-range-selector:not(.inside)>.change>* {
+  margin: 0;
+}
+
+.linear-range-selector.inside {
+  display: block;
+  min-width: 1cm;
+  min-height: 0.7cm;
+  position: relative;
+  width:fit-content;
+}
+
+.linear-range-selector.inside>.change {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-content: center;
+  height: 100%;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  padding: 1mm;
+}
+
+.linear-range-selector.inside>.change>* {
+  margin: 0;
+}
+
+/*CSS transitions*/
+.move-left-enter:not(.move-left-enter-active), .move-left-appear:not(.move-left-appear-active), .move-right-exit-active, .move-right-exit-done {
+  transform: scale(0.7) translateX(-100px);
+  opacity: 0.7;
+}
+
+.move-right-enter:not(.move-right-enter-active), .move-right-appear:not(.move-right-appear-active), .move-left-exit-active, .move-left-exit-done {
+  transform: scale(0.7) translateX(100px);
+  opacity: 0.7;
+}
+
+.move-left-enter-active .move-right-appear-active .move-left-appear-active, .move-right-enter-active .move-left-exit:not(.move-left-exit-active), .move-right-exit:not(.move-right-exit-active) {
+  transform: scale(1) translateX(0px);
+  opacity: 1;
+}
+
+.move-right-enter, .move-right-appear, .move-left-appear-active, .move-right-enter-active, .move-left-enter, .move-left-appear, .move-left-enter-active, .move-left-appear-active {
+  transition: opacity 1000ms ease-out 1500ms, transform 3000ms;
+}
+.move-right-appear-done,.move-right-enter-done,.move-left-appear-done,.move-left-enter-done{
+   transition: all 0s;
+}
+
+.move-left-exit-active, .move-right-exit-active {
+  transition: opacity 1500ms, transform 3000ms;
+}
+
+.move-left-exit,move-right-exit{
+  transform: scale(1) translateX(0px) translateY(-100%) ;
+}
+
+.move-left-exit-active{
+  transform: scale(0.7) translateX(100px) translateY(-100%);
+}
+
+.move-right-exit-active{
+  transform: scale(0.7) translateX(-100px)  translateY(-100%);
+}
+
+.linear-range-selector>.optionsDisplay {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width:fit-content;
+  overflow:hidden
+}
+.linear-range-selector>.optionsDisplay .option{
+   position: relative;
+   
+}

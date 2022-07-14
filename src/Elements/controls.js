@@ -1,38 +1,38 @@
-import { CircularProgress, LinearProgress } from "@mui/material";
+import { Button, CircularProgress, LinearProgress } from "@mui/material";
 import { extend } from "jquery";
 import React from "react";
 import { connect } from "react-redux"
-import { mapDispatchToProp, mapStoreToProp, untrackedGameData } from "../management/data";
+import { gameTypes, mapDispatchToProp, mapStoreToProp, untrackedGameData } from "../management/data";
 import $ from "jquery"
 class Controls extends React.Component {
     constructor(props) {
         super(props)
         untrackedGameData.controls = this;
-        this.state = { visible: false }
+        this.state = { visible: false, hideTimeoutId: undefined }
     }
     render() {
         let style = {}
-        let score = { blue: 0, red: 0, max: 0 }
+        let score = { blue: 0, red: 0, target: 0 }
         if (this.props.store && this.props.store.score) { score = this.props.store.score }
         return (
             <div style={{}} id="controls" ref={(el) => this.element = el}>
                 {
-                    (this.props.type == "score") ? (
+                    (this.props.gameType === gameTypes.SCORE) ? (
                         <>
                             <div className="scoreDisplay">
-                                <CircularProgress variant="determinate" value={score.blue / score.max * 100} about="player 1" color="primary" className="scoreDisplay"></CircularProgress>
+                                <CircularProgress variant="determinate" value={score.blue / score.target * 100} about="player 1" color="primary" className="scoreDisplay"></CircularProgress>
                                 <p>{score.blue}</p>
                             </div>
-                            <GameTimer />
+                            <GameTimer gameType={this.props.gameType} />
                             <div className="scoreDisplay">
-                                <CircularProgress variant="determinate" value={score.red / score.max * 100} about="player 1" color="warning" className="scoreDisplay">55</CircularProgress>
+                                <CircularProgress variant="determinate" value={score.red / score.target * 100} about="player 1" color="warning" className="scoreDisplay">55</CircularProgress>
                                 <p>{score.red}</p>
                             </div>
                         </>
                     ) : (
                         <>
                             <GameTimer />
-                            <progress style={{ width: "50%" }} color={(score.blue > score.red) ? "blue" : "orange"} value={Math.abs(score.blue - score.red) / score.max}></progress>
+                            <progress style={{ width: "50%" }} color={(score.blue > score.red) ? "blue" : "orange"} value={Math.abs(score.blue - score.red) / score.target}></progress>
                         </>
 
                     )
@@ -41,33 +41,65 @@ class Controls extends React.Component {
             </div>
         );
     }
-    componentDidMount() {
-        this.show();
-        setTimeout(this.hide,2000)
+    componentDidUpdate() {
+        if (this.props.store?.status === "starting") {
+            this._showAndHide();
+        }
+        if (this.props.store?.status === "resuming") {
+            this._hide();
+        }
+        if (this.props.store?.status === "pausing") {
+            this._show();
+        }
     }
+
+    toggle = () => {
+        if (this.props.store?.status === "playing") {
+            this._toggle()
+        }
+    }
+
+    _showAndHide = () => {
+        if (this.state.hideTimeoutId !== undefined) clearTimeout(this.state.hideTimeoutId)
+        this._show()
+        this.state.hideTimeoutId = setTimeout(this._hide, 2500)
+    }
+
     show = () => {
+        if (this.props.store?.status === "playing") this._show();
+    }
+
+    hide = () => {
+        if (this.props.store?.status === "playing") this._hide();
+    }
+
+
+    _toggle = () => {
+        if (this.state.visible) this.hide(); else this._showAndHide();
+    }
+
+    _show = () => {
+        if (this.state.hideTimeoutId !== undefined) clearTimeout(this.state.hideTimeoutId)
         $(this.element).removeClass("hiding").addClass("shown")
         this.state.visible = true;
     }
-    hide = () => {
+
+    _hide = () => {
         let $element = $(this.element).removeClass("shown").addClass("hiding")
         setTimeout((() => { $element.removeClass("hiding") }), 300)
         this.state.visible = false;
-    }
-    toggle = () => {
-        if (this.state.visible) this.hide(); else this.show();
     }
 }
 class _GameTimer extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { time: 0, type: "timer", timerClassName: "visible", pauseClassName: "" }
+        this.state = { time: 0, timerClassName: "visible", pauseClassName: "" }
     }
     render() {
         if (!this.props.store || !this.props.store.gameStartTime || this.props.store.status === "launched") return (<p className="game-timer">{this.state.time}</p>);
-        let { gameStartTime, status ,gameTotalDuration} = this.props.store
+        let { gameStartTime, status, gameTotalDurationSeconds } = this.props.store
         this.state.time = Math.round((new Date().getTime() - gameStartTime) / 1000)
-        if (Math.floor(this.state.time / 5) % 2 == 0||(this.props.gameType==="time"&&gameTotalDuration-this.state.time<10)) {
+        if (Math.floor(this.state.time / 3) % 2 == 0 || (this.props.gameType === gameTypes.TIME_OUT && gameTotalDurationSeconds - this.state.time < 10)) {
             this.state.timeClassName = "visible"
             this.state.pauseClassName = ""
         } else {
@@ -78,12 +110,15 @@ class _GameTimer extends React.Component {
             let refresh = (() => this.forceUpdate()).bind(this)
             setTimeout(refresh, 1000)
         }
-       
+        if (this.props.gameType === gameTypes.TIME_OUT) this.state.time = Math.round(gameTotalDurationSeconds - this.state.time);
+        if (this.state.time < 0) this.state.time = 0;
         return (
-            <div id="game-timer" style={{ position: "relative", height: "fit-content" }} onClick={untrackedGameData.game.pauseGame} className={(status==="playing")?"active":""}>
-                <span  className={this.state.timeClassName}>{this.state.time}</span>
-                <span style={{fontSize:"12mm"}}className={this.state.pauseClassName + " centered material-icons"}>pause_circle</span>
-            </div>
+            <Button variant="text" color="info" onClick={untrackedGameData.game.pauseGame} id="game-timer-container">
+                <span id="game-timer" style={{ position: "relative", height: "fit-content" }} className={(status === "playing") ? "active" : ""}>
+                    <span className={this.state.timeClassName} style={{ fontSize: "6mm" }}>{this.state.time}</span>
+                    <span className={this.state.pauseClassName + " centered material-icons"} style={{ fontSize: "12mm" }}>pause_circle</span>
+                </span>
+            </Button>
         )
     }
 }

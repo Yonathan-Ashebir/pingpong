@@ -9,10 +9,11 @@
     backdrop-filter: blur(10px);
     position: absolute;
     top:0;
+    transition-duration: 400ms;
 }
 .fullscreen-dialog.exiting, .fullscreen-dialog.exited{
     opacity: 0;
 }
-.fullscreen-dialog.fullscreen-dialog.exited{
-    visibility: none;
+.fullscreen-dialog.exited{
+    visibility: collapse;
 }

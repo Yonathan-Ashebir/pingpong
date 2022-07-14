@@ -1,0 +1,188 @@
+@font-face {
+    font-family: Graduate;
+    src: url(../fonts/Graduate-Regular.ttf);
+}
+
+#home {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    width: 100%;
+}
+
+#home>#main {
+    flex-flow: column nowrap;
+    align-self: center;
+    justify-self: center;
+    margin-top:10vh
+}
+
+#home #logo {
+    max-height: 30vh;
+    background-color: red;
+    height: 3cm;
+    width: 3cm;
+    /* todo */
+}
+
+#home>#main>#phrase {
+    max-height: 3em;
+    font-family: Graduate;
+}
+
+#home>#main>#prefs {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+#game-type-card {
+    display: flex;
+    flex-flow: column nowrap;
+    border-radius: 3mm;
+    padding: 2mm 2mm 0mm 2mm;
+    justify-content: center;
+    width: 80vw;
+    align-items: center;
+}
+
+#game-type-selector {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#game-type-selector>#game-type-label {
+    font-size: 1em;
+    margin: 2mm 8mm 2mm 2mm;
+    font-family: 'GRADUATE';
+    font-weight: 700;
+}
+
+#game-type-selector .game-type-option {
+    overflow: hidden
+}
+
+#game-type-card #game-type-detail {
+    overflow: hidden;
+    padding: 0mm 2mm;
+    box-sizing: border-box;
+    color: gray;
+    width:100%;
+}
+
+
+
+.game-detail-title {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-family: cursive;
+    font-size: 0.9rem;
+    padding-top: 5px;
+    display: block;
+    letter-spacing: 0.3ex;
+    width: 100%;
+}
+
+.game-detail-content {
+    font-size: 0.7em;
+    font-family: emoji;
+    padding-top: 2mm;
+    padding-bottom: 2mm;
+    color:gray;
+    letter-spacing: 0.1ex;
+    width:100%
+}
+
+div#difficulty-card {
+    width: 100%;
+    margin-top: 3mm;
+    border-radius: 2mm;
+    padding: 2mm;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+span#difficulty-label {
+    display: block;
+    font-size: 1em;
+    margin: 2mm 8mm 2mm 2mm;
+    font-family: 'GRADUATE';
+    font-weight: 700;
+}
+
+#difficulty-card>span+span {
+    box-sizing: border-box;
+    margin-right: 4mm;
+}
+
+#bottom-bar{
+     position: fixed;
+     bottom:0;
+     left: 0;
+    height:calc( 0.8cm + 2vh);
+    background-color: #f8f8ff77;
+    width:100vw;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#version{
+    font-size: 3.5mm;
+    color: grey; 
+    padding-left: 5mm;  
+     
+}
+
+#contact{
+    font-size: 3.5mm;
+    color: grey;   
+    padding-right: 5mm; 
+    height: 100%; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* css transitions */
+.details-enter, .details-appear {
+    transition: opacity 300ms ease-out 200ms, max-height 500ms ease-in;
+}
+
+.details-exit {
+    transition: opacity 300ms ease-out, max-height 500ms ease-out;
+}
+
+.details-exit-done, .details-appear, .details-enter {
+    opacity: 0;
+    max-height: 0cm;
+}
+
+.details-exit {
+    opacity: 1;
+    max-height: 3cm;
+}
+
+.details-appear-active, .details-enter-active {
+    opacity: 1;
+    max-height: 3cm;
+}
+
+.details-exit-active {
+    opacity: 0;
+    max-height: 0;
+}

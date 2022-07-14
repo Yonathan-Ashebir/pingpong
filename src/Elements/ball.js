@@ -1,4 +1,5 @@
 import { fontSize } from "@mui/system";
+import anime from "animejs";
 import $ from "jquery";
 import React from "react";
 import { connect } from "react-redux";
@@ -21,22 +22,25 @@ class Ball extends React.Component {
             </div>
         )
     }
-    componentDidMount() {
-        this.resetPosition();
-    }
     componentDidUpdate() {
         switch (this.props.store?.status) {
             case "starting": {
                 this.resetPosition();
                 let v = getInitialVelocity()
-                v.rotate(Math.random() * 2 * Math.PI)
+                v = new Vector(v.getR())
+                let rad = (Math.random() * 2 - 1) * (Math.PI - 1.2)
+                v.rotate(rad + Math.sign(rad) * (0.6))
                 this.setVelocity(v)
                 this.move(); break
             } case "pausing": {
                 this.stop(); break
             } case "resuming": {
-                this.state.lastTimePositioned = new Date().getTime();
+                this.state.lastTimePositioned = new Date().getTime() + 10;//todo: correction
                 this.move(); break
+            }
+            case "finished": {
+                this.stop();
+                break;
             }
         }
         this.rescalePosition();
@@ -54,8 +58,6 @@ class Ball extends React.Component {
     }
     resetPosition = () => {
         if (this.element && this.props.store.groundDimensions) {
-
-            console.log("ball rescaled")
             let $element = $(this.element)
             let { groundDimensions } = this.props.store
             this.setCenter(groundDimensions.width / 2, groundDimensions.height / 2);
@@ -104,7 +106,13 @@ class Ball extends React.Component {
         requestAnimationFrame(this.motionLoop)
     }
     position = () => {
-        this.element.style.transform = "translate(-50%, -50%) translate(" + this.state.posX + "px, " + this.state.posY + "px)"
+        this.element.style.transform = "translate(" + (this.state.posX - this.getRadius()) + "px, " + (this.state.posY - this.getRadius()) + "px)"
+    }
+    hide = (onComplete) => {
+        anime({ targets: this.element, scale: { duration: 300, value: [1, 0.3], easing: "easeOutQuad" }, opacity: { duration: 200, delay: 200, value: [1, 0] } }).complete = onComplete;
+    }
+    show = (onComplete) => {
+        anime({ targets: this.element, scale: { duration: 300, value: [0.3, 1], easing: "easeOutQuad", delay: 100 }, opacity: { duration: 200, value: [0, 1] } }).complete = onComplete;
     }
 
 }

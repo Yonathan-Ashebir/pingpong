@@ -6,10 +6,12 @@
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
+    align-items: center;
 }
 .winner-dialog>.wins-message{
     font-family: Graduate;
     font-size: xx-large;
+    color:darkgray;
 }
 .winner-dialog>.score-label{
     align-self: flex-start;

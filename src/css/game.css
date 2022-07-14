@@ -1,23 +1,36 @@
-.centered{
+.centered {
     position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* animations */
-@keyframes small-counter-anim{
-    from{
+@keyframes small-counter-anim {
+    from {}
+
+    65% {
+        transform: scale(2);
+        opacity: 0.6;
     }
-    65%{
-        transform: scale(1.13);
-        opacity: 0.87;
-    }
-    to{
+
+    to {
         transform: scale(1);
         opacity: 1;
     }
 }
+@keyframes winner-name-anim{
+    65% {
+        transform: scale(1.6);
+        opacity: 0.87;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 /* styles */
 html {
     height: 100%;
@@ -91,39 +104,42 @@ body {
     height: 2cm;
     width: 4.9cm;
     border-radius: 3mm;
-    transform: translate(-50%, -50%) rotate(270deg) translate(0px,-100px);
+    transform: translate(-50%, -50%) rotate(270deg) translate(0px, -100px);
     backdrop-filter: blur(2px);
     position: absolute;
     top: 50%;
-    left: 1.5cm;
+    left: calc(1cm + 5vw);
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     font-size: 8mm;
-    opacity:0;
+    opacity: 0;
     transition: none;
-    visibility:hidden;
+    visibility: hidden;
 }
-#controls.shown{
-    transform: translate(-50%, -50%) rotate(270deg) translate(0px,0px);
+
+#controls.shown {
+    transform: translate(-50%, -50%) rotate(270deg) translate(0px, 0px);
     opacity: 0.9;
     transition: opacity 300ms, transform 300ms;
     visibility: visible;
 }
-#controls.hiding{
+
+#controls.hiding {
     transition: transform 300ms, opacity 300ms;
-    transform: translate(-50%, -50%) rotate(270deg) scale(0.7) ;
+    transform: translate(-50%, -50%) rotate(270deg) scale(0.7);
     opacity: 0;
     visibility: visible;
 }
+
 .scoreDisplay {
     height: fit-content;
     width: fit-content;
     position: relative;
     margin: 0px;
     padding: 0px;
-    display:flex;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -138,57 +154,94 @@ body {
     margin: 0px;
     padding: 0px;
 }
-#game-timer{
-    color:grey
+#game-timer-container{
+    height: fit-content;
+    width: fit-content;
+    padding: 0;
+    margin: 0;
+    min-width: unset;
 }
-#game-timer.active{
-    color:#555555;
+
+#game-timer {
+    color: grey
 }
-#game-timer>span{
+
+#game-timer.active {
+    color: #555555;
+}
+
+#game-timer>*{
     opacity: 0;
     transition: opacity 200ms;
 }
-#game-timer>span.visible{
-    opacity:1;
+
+#game-timer>*.visible {
+    opacity: 1;
     transition: opacity 300ms ease-out 200ms;
 }
 
 
 
-.suspend-dialog{
+.suspend-dialog {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-flow: column;
-    padding-left: 3mm;
+    padding-left: calc(2mm + 5vw + 1cm);
 }
-#suspend> button{
-    color:blue;
-    background-color:aliceblue;
-    margin:5mm;
-  
+
+.suspend-dialog >button {
+    color: blue;
+    background-color: aliceblue;
+    margin: 5mm;
+    box-shadow: #77222222 2px 2px 5px, #77222222 -2px -2px 5px;
 }
-#suspend> button+button{
-    color:orange;
-    background-color:aliceblue;
-    margin:5mm;
-    
+.suspend-dialog>button+button {
+    color: orange;
+    background-color: aliceblue;
+    margin: 5mm;
+
 }
-#suspend> button>i{
+
+#suspend>button>i {
     margin-top: 5mm;
 }
-.counter{
-   font-size: 4cm;
-   color:lime;
+
+.counter {
+    font-size: 4cm;
+    color: lime;
 }
-.counter-background{
-   opacity: 0.8;
-   backdrop-filter:blur(2px);
-   background-color: aliceblue;
-   position: absolute;
-   height: 100%;
-   width:100%;
-   display: flex;
-   align-items: center;
-   justify-content: center;
+
+.counter-background {
+    opacity: 0.8;
+    backdrop-filter: blur(2px);
+    background-color: aliceblue;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.score-container>.small-counter {
+    font-size: 9mm;
+    margin: 0 6mm 0 6mm
+}
+
+.score-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.score-label{
+    margin:2mm 0 2mm 4mm;
+    color:silver;
+}
+.winner-name{
+    animation:winner-name-anim 1000ms ease-out 100ms 2;
+    font-family: Graduate;
+    font-weight: 700;
+    font-size: 20vw;
 }
